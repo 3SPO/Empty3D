@@ -1,3 +1,6 @@
+//Alex Esposito
+//5/11/15
+//3D Noise Example
 #pragma once
 
 #include "ofMain.h"
@@ -10,18 +13,23 @@
 
 class ofApp : public ofBaseApp
 {
-	public:
-		
-		void setup();
-		void update();
-		void draw();
-		void setNormals(ofMesh &mesh);
-
-		void keyPressed(int key);
-	
-		ofxFirstPersonCamera	camera;
-	
-		ofTrueTypeFontExt		fontSmall;
+public:
+    
+    void setup();
+    void update();
+    void draw();
+    
+    void keyPressed(int key);
+    void setNormals(ofMesh &mesh);
+    
+    ofxFirstPersonCamera	camera;
+    
+    ofTrueTypeFontExt		fontSmall;
     
     ofMesh mesh;
+    ofLight light;
+    ofColor color ;
+    int gridX = 30;
+    int gridY = 30;
+    
 };

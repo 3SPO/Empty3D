@@ -1,53 +1,130 @@
+//Alex Esposito
+//5/11/15
+//3D Noise Example
 #include "ofApp.h"
 
 //-----------------------------------------------------------------------------------------
 //
 void ofApp::setup()
 {
-	fontSmall.loadFont("Fonts/DIN.otf", 8 );
-	
-	// Give us a starting point for the camera
-	camera.setNearClip(0.01f);
-	camera.setPosition( 0, 4, 10 );
-	camera.setMovementMaxSpeed( 0.1f );
+    //create all of the vertex points and give the color
+    for (int y=0; y<gridY; y++) {
+        for (int x=0; x<gridX; x++) {
+            mesh.addVertex(ofPoint( (x - gridX/2), (y - gridY/2), 0 ) );
+            mesh.addColor( ofColor( 0, 0, 0 ) );
+        }
+    }
+    //actually create the triangles
+    for (int y=0; y<gridY-1; y++) {
+        for (int x=0; x<gridX-1; x++) {
+            int i1 = x + gridX * y;
+            int i2 = x+1 + gridX * y;
+            int i3 = x + gridX * (y+1);
+            int i4 = x+1 + gridX * (y+1);
+            mesh.addTriangle( i1, i2, i3 );
+            mesh.addTriangle( i2, i4, i3 );
+        }
+    }
     
-	
+    setNormals( mesh ); //Set normals to the surface
+    //Note, setNormals is our function, which is declared
+    
+    // Make the camera look down
+    camera.setNearClip(0.01f);
+    camera.setPosition( 0, 30, 1 );
+    camera.lookAt( ofVec3f( 0, 0, 0 ));
+    camera.setMovementMaxSpeed( 1 );
+    
+    //Enabling light source
+    light.enable();
+    
+    //=====static noise=================================
+    
+    //Change vertices
+    for (int y=0; y<gridY; y++) {
+        for (int x=0; x<gridX; x++) {
+            int i = x + gridX * y;			//Vertex index
+            ofPoint change = mesh.getVertex( i );
+            
+            //Get noise value
+            float value = ofNoise( x * 1000, y * 1000, 2 * .06 );
+            
+            //Change z-coordinate of vertex
+            change.z = value * 5;
+            mesh.setVertex( i, change );
+            
+            color.setHsb(255 * value, 220, 255) ;
+            //Change color of vertex
+            mesh.setColor( i, color );
+        }
+    }
+    setNormals( mesh );	//Update the normals
+    
 }
 
 //-----------------------------------------------------------------------------------------
 //
 void ofApp::update()
 {
+    //=====moving noise=================================
+    float time = ofGetElapsedTimef();	//Get time
+    //Change vertices
+    for (int y=0; y<gridY; y++) {
+        for (int x=0; x<gridX; x++) {
+            int i = x + gridX * y;			//Vertex index
+            ofPoint change = mesh.getVertex( i );
+            
+            //Get Perlin noise value
+            float value = ofNoise( x * 1000, y * 1000, time * .06 );
+            
+            //Change z-coordinate of vertex
+            change.z = value * 5;
+            mesh.setVertex( i, change );
+            
+            color.setHsb(255 * value, 220, 255) ;
+            //Change color of vertex
+            mesh.setColor( i, color );
+        }
+    }
+    setNormals( mesh );	//Update the normals
+    
 }
 
 //-----------------------------------------------------------------------------------------
 //
 void ofApp::draw()
 {
-	ofBackgroundGradient( ofColor(40,40,40), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);	
-	
-	ofEnableDepthTest();
-	
-	camera.begin();
-	
-		// draw a grid on the floor
-		ofSetColor( ofColor(60) );
-		ofPushMatrix();
-			ofRotate(90, 0, 0, -1);
-			ofDrawGridPlane( 10 );
-		ofPopMatrix();
+    ofBackgroundGradient( ofColor(40,40,40), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
+    
+    ofEnableDepthTest(); //start the depth test every frame
+    
+    camera.begin(); //start drawing to the camera view
+    
+    // draw a grid on the floor
+    ofSetColor( ofColor(60) ); //color of the grid
+    ofPushMatrix();
+    ofRotate(90, 0, 0, -1); //turn the YZ plane CCW to make a "floor"
+    //ofDrawGridPlane( 15, 10, false); //Draws a YZ plane
+    ofPopMatrix();
+    //============================================================
+    ofPushMatrix();	//Store the coordinate system
+    
+    ofRotate( 90, -1, 0, 0 );
+    ofTranslate(0, 0, -2.5);//Rotate coordinate system
+    
+    //Draw mesh
     mesh.draw();
-	
-	camera.end();
-
-	ofSetColor( ofColor::white );
-	ofDisableDepthTest();
-
-
-	fontSmall.drawStringShadowed(ofToString(ofGetFrameRate(),2), ofGetWidth()-35, ofGetHeight() - 6, ofColor::whiteSmoke, ofColor::black );
+    
+    ofPopMatrix();
+    
+    camera.end(); //stop drawing to the camera
+    
+    
+    ofDisableDepthTest(); //stop drawing to the z-buffer
+    
 }
 
-//-----------------------------------------------------------------------------------------//
+//--------------------------------------------------------------
 //Universal function which sets normals for the triangle mesh
 void ofApp::setNormals( ofMesh &mesh ){
     
@@ -92,14 +169,12 @@ void ofApp::setNormals( ofMesh &mesh ){
     mesh.addNormals( norm );
 }
 
-
-
-
-
+//-----------------------------------------------------------------------------------------
+//
 void ofApp::keyPressed(int key)
 {
-	if( key == 'f' )
-	{
-		ofToggleFullscreen();
-	}
+    if( key == 'f' )
+    {
+        ofToggleFullscreen();
+    }
 }

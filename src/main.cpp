@@ -1,3 +1,7 @@
+//Alex Esposito
+//5/11/15
+//3D Noise Example
+
 #include "ofMain.h"
 #include "ofApp.h"
 
