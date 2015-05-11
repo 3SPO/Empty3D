@@ -66,27 +66,27 @@ void ofApp::setup()
 //
 void ofApp::update()
 {
-    //=====moving noise=================================
-    float time = ofGetElapsedTimef();	//Get time
-    //Change vertices
-    for (int y=0; y<gridY; y++) {
-        for (int x=0; x<gridX; x++) {
-            int i = x + gridX * y;			//Vertex index
-            ofPoint change = mesh.getVertex( i );
-            
-            //Get Perlin noise value
-            float value = ofNoise( x * 1000, y * 1000, time * .06 );
-            
-            //Change z-coordinate of vertex
-            change.z = value * 5;
-            mesh.setVertex( i, change );
-            
-            color.setHsb(255 * value, 220, 255) ;
-            //Change color of vertex
-            mesh.setColor( i, color );
-        }
-    }
-    setNormals( mesh );	//Update the normals
+//    //=====moving noise=================================
+//    float time = ofGetElapsedTimef();	//Get time
+//    //Change vertices
+//    for (int y=0; y<gridY; y++) {
+//        for (int x=0; x<gridX; x++) {
+//            int i = x + gridX * y;			//Vertex index
+//            ofPoint change = mesh.getVertex( i );
+//            
+//            //Get Perlin noise value
+//            float value = ofNoise( x * 1000, y * 1000, time * .06 );
+//            
+//            //Change z-coordinate of vertex
+//            change.z = value * 5;
+//            mesh.setVertex( i, change );
+//            
+//            color.setHsb(255 * value, 220, 255) ;
+//            //Change color of vertex
+//            mesh.setColor( i, color );
+//        }
+//    }
+//    setNormals( mesh );	//Update the normals
     
 }
 
