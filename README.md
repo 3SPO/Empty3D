@@ -1,19 +1,11 @@
-##3D Noise Exercise
-Alex Esposito - 5/11/15
+# FFTerrain
 
-This code is a culmination of noise data being placed in to a 3D world in the code there is two forms of noise. one in setup which gives a static image and one in update which animates the same noise function for movement and color change
+### Alex Esposito 6/1/15
 
-We start with actually creating the mesh of triangles through vertices.
-![screenshot](assets/screenshot_setup.jpg)
+![screenshot](assets/screenshot1.png)
 
-Next is creating the static noise image
-![screenshot](assets/screenshot_staticNoise.jpg)
+![screenshot](assets/screenshot2.png)
 
-After that we use the same code only add time as a factor and put it in update in order to create animation
-![screenshot](assets/screenshot_movingNoise.jpg)
+This project was meant to showcase soundwaves in a 3D terrain and give it that feeling of being a forest. The idea was to visualize sound in a creative way in order to teach young students about sound and image manipulation in a more creative way, sadly I don't think my goal came across. There were parts of this that I assumed would be easy, but quickly became the most challenging aspects of what I attempted to do.
 
-Lastly is the draw which actually draws the image up and down so a rotate handles putting it back on the floor plane
-![screenshot](assets/screenshot_draw.jpg)
-
-This code is created to better gain a handle on open frameworks and its many possibilities.
-
+This project was my attempt at using 3D models and meshes in Open Frameworks. There is still a lot I don't understand about whats going on in 3D coding and I feel like although I made strides in my own head towards understanding this stuff, it doesn't show through the code. After spending time with the ofxFFT addon and getting the right sound to manipulate I spent well over 14 hours trying to make something even work within the program. After failing over and over again I went on to the brute force tactic and forcefully loaded 30 tree models in to the program, gave them all there own random integer to spawn at on the grid, and lastly drew and rotated all 30 of them individually. After all of this I again went back to trying to improve the image, Add texture, different colors, more variety, but it all resulted in frustration. This project showed me a lot about how little I know in terms of 3D coding and I need to spend a lot more time before I feel compfortable actually publishing this idea any further.

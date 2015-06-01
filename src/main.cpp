@@ -1,6 +1,6 @@
 //Alex Esposito
-//5/11/15
-//3D Noise Example
+//FFTerrain final
+//6/1/15
 
 #include "ofMain.h"
 #include "ofApp.h"
